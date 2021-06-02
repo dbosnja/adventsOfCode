@@ -63,10 +63,39 @@ def get_stops(wire_input):
 
 
 def get_steps_for(intersection, wire_stops):
+    total_steps = 0
     if intersection in wire_stops:
         it_index = wire_stops.index(intersection) + 1
+        passed_steps = wire_stops[:it_index]
+        for step in slices(passed_steps):
+            total_steps += abs(step[0][0] - step[1][0])
+            total_steps += abs(step[0][1] - step[1][1])
+        return total_steps
+    # import pdb
+    # pdb.set_trace()
+    for step in slices(wire_stops):
+        if intersection[0] in range(min(step[0][0], step[1][0]), max(step[0][0], step[1][0]) + 1)\
+            and intersection[1] in range(min(step[0][1], step[1][1]), max(step[0][1], step[1][1]) + 1):
+            last_step = wire_stops.index(step[0])
+            break
+    passed_steps = wire_stops[:last_step + 1]
+    for step in slices(passed_steps):
+        total_steps += abs(step[0][0] - step[1][0])
+        total_steps += abs(step[0][1] - step[1][1])
+    total_steps += abs(wire_stops[last_step][0] - intersection[0])
+    total_steps += abs(wire_stops[last_step][1] - intersection[1])
+    # import pdb
+    # pdb.set_trace()
+    return total_steps
 
 
+def slices(a_list):
+    temp_list = []
+    for i, _ in enumerate(a_list):
+        if i == len(a_list) - 1:
+            break
+        temp_list.append(a_list[i:i + 2])
+    return temp_list
 
 
 def main():
@@ -82,13 +111,19 @@ def main():
     temp_map = {0: wireA_stops,
                 1: wireB_stops
             }
-    import pdb
-    pdb.set_trace()
     intersections_to_steps_map = defaultdict(dict)
     for i in range(2):
         for it in intersections:
+            if it == (0, 0):
+                continue
             intersections_to_steps_map[i][it] = get_steps_for(it, temp_map[i])
-
+    steps = []
+    intersections.remove((0, 0))
+    for it in intersections:
+        intersection_length = intersections_to_steps_map[0][it]\
+                              + intersections_to_steps_map[1][it]
+        steps.append(intersection_length)
+    return min(steps)
 
 
 if __name__ == "__main__":
