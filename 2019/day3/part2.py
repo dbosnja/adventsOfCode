@@ -71,8 +71,6 @@ def get_steps_for(intersection, wire_stops):
             total_steps += abs(step[0][0] - step[1][0])
             total_steps += abs(step[0][1] - step[1][1])
         return total_steps
-    # import pdb
-    # pdb.set_trace()
     for step in slices(wire_stops):
         if intersection[0] in range(min(step[0][0], step[1][0]), max(step[0][0], step[1][0]) + 1)\
             and intersection[1] in range(min(step[0][1], step[1][1]), max(step[0][1], step[1][1]) + 1):
@@ -84,8 +82,6 @@ def get_steps_for(intersection, wire_stops):
         total_steps += abs(step[0][1] - step[1][1])
     total_steps += abs(wire_stops[last_step][0] - intersection[0])
     total_steps += abs(wire_stops[last_step][1] - intersection[1])
-    # import pdb
-    # pdb.set_trace()
     return total_steps
 
 
