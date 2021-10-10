@@ -3,7 +3,7 @@
 
 from itertools import permutations
 
-import op_code
+import op_code_part1
 
 
 def get_input(file_path):
@@ -18,7 +18,7 @@ def main():
     for p in permutations(range(5)):
         a_input = 0
         for phase in p:
-            a_output = op_code.main(phase, a_input, list(instruction_set))
+            a_output = op_code_part1.main(phase, a_input, list(instruction_set))
             a_input = a_output
         thruster_values.append(a_output)
     return max(thruster_values)
