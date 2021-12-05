@@ -1,3 +1,4 @@
 *.py[ocd]
 *code-workspace
 *.vscode
+*.idea
